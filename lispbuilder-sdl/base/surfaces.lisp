@@ -131,43 +131,6 @@
 			    sdl-cffi::SDL-Pixel-Format)
 	 (sdl-cffi::SDL-Set-Color-Key surface flags sdl-cffi::colorkey))))))
 
-;; (defun set-color-key (surface color &optional (enable-color-key nil) (rle-accel nil))
-;;   "Sets the key color for the given surface. The key color is made transparent."
-;;   (when (is-valid-ptr surface)
-;;     (let ((flags 0))
-;;       (when rle-accel
-;; 	(setf flags (logior sdl-cffi::SDL-RLE-ACCEL flags)))
-;;       (when enable-color-key
-;; 	(setf flags (logior sdl-cffi::SDL-SRC-COLOR-KEY flags)))
-
-;;       (with-foreign-slots ((sdl-cffi::colorkey)
-;; 			   (pixel-format surface)
-;; 			   sdl-cffi::SDL-Pixel-Format)
-;; 	;; Unless color is an INTEGER, set it to the
-;; 	;; current colorkey.
-;; 	(unless (integerp color)
-;; 	  (setf color sdl-cffi::colorkey)))
-;;       (sdl-cffi::SDL-Set-Color-Key surface flags color))
-;;     surface))
-
-;; (defun set-alpha (surface alpha &optional (source-alpha nil) (rle-accel nil))
-;;   "Sets the alpha value for the given surface."
-;;   (when (is-valid-ptr surface)
-;;     (let ((flags 0))
-;;       (when rle-accel
-;; 	(setf flags (logior sdl-cffi::SDL-RLE-ACCEL flags)))
-;;       (when source-alpha
-;; 	(setf flags (logior sdl-cffi::SDL-SRC-ALPHA flags)))
-;;       (with-foreign-slots ((sdl-cffi::alpha)
-;; 			   (pixel-format surface)
-;; 			   sdl-cffi::SDL-Pixel-Format)
-;; 	;; Unless alpha is an INTEGER, set it to the
-;; 	;; current surface alpha.
-;; 	(unless (integerp alpha)
-;; 	  (setf alpha sdl-cffi::alpha)))
-;;       (sdl-cffi::SDL-Set-Alpha surface flags (clamp (to-int alpha) 0 255)))
-;;     surface))
-
 (defun get-surface-rect (surface rectangle)
   (setf (rect-x rectangle) 0
 	(rect-y rectangle) 0

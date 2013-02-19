@@ -21,10 +21,4 @@
 	    :components
 	    ((:file "package")
 	     (:file "generics" :depends-on ("package"))
-	     (:file "sdl-image-util" :depends-on ("package" "generics"))))
-   (:module "documentation"
-	    :components
-	    ((:html-file "header")
-	     (:html-file "footer")
-	     (:html-file "lispbuilder-sdl-image")
-	     (:static-file "alien.png")))))
+	     (:file "sdl-image-util" :depends-on ("package" "generics"))))))
