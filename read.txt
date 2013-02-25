@@ -1,0 +1,83 @@
+/lispbuilder-mini/lbm-sdl
+lbm-sdl-base.asd
+lbm-sdl-binaries.asd
+lbm-sdl-cffi.asd
+lbm-sdl.asd
+
+./base/
+package.lisp
+pixel.lisp - not sure of its purpose in relation to opengl yet so it stays for now.
+rectangle.lisp - same as pixel.
+rwops.lisp - notice the pattern here? as above
+sdl-util.lisp - looks great, one function is commented out and needs removing
+surfaces.lisp - Good candidate for a LOT of reduction if we only need the display surface
+util.lisp - not sure how much we will need some of this, there are some handy clamp functions though.
+
+./bin/
+globals.lisp & package.lisp - Not much in binaries other than dll path... thats all
+
+./build/
+Makefile - nothing exciting here
+sdlswig.i - I have no idea what this is all about! - SWIG! its for wrappers, see ./cffi/sdl.lisp
+
+./cffi/
+cffi-translate.lisp - seems to define the ctypes here (surface and rectangle)
+endian.lisp - need to read up on how this is used in cffi
+events.lisp - very cool, need to go read into more detail here. Need to understand masks
+glue.lisp - nice work here, interested in why there are issues with the audio funcs
+rwops.lisp - obviously essential though I'm not sure where we would need them outside of the wrapper
+stdinc.lisp - there are types they are not sure if are needed... were they used? if not then kill
+syswm.lisp - hmm all windows functions here... need to find out the nature of syswm
+video.lisp - if :hw-available is nil, do we want to run at all?
+             hw and sw surfaces seem only related to 2d work...are they relavent to opengl?
+             We dont want any context other than an opengl one, we should make macros for this.
+             There is lots about hardware acceleration in relation to blitting, if this is not 
+                relevent to opengl the remove it.
+             GLAttr should be intergrated and not feel like an afterthought (not the fault of 
+                lispbuilder devs, this is an sdl thing)
+
+./trivial-garbage/
+Remove this, use the one from quicklisp
+
+./sdl/
+oh god so much!
+
+active.lisp - is fine
+audio.lisp - is fine
+base.lisp - seesm fine, can't see what I would remove
+color.lisp - want to remove this...cant yet - GONE!
+default-colors.lisp - same and color.lisp - GONE!
+events.lisp - remains mostly the same... removed with-events obviously and its helper function
+              fairly ok with the rest though, it's mainly macros
+generics.lisp - torn out many things thta mention surface so their absence will be highlighted elsewhere
+image.lisp - this is odd, I've had a go at removing the surface bits (except for save) but dont know 
+             where to go from here. What does this do if not making surface?
+             cl-devil may be better....dont really know!
+init.lisp - fine
+keys.lisp - fine
+mixer.lisp - not ready for this yet
+mouse.lisp - good
+package.lisp - working on in
+pixel.lisp - all surface functions! Gone now!
+point.lisp - confuses me, want to be sure what uses it before I rip it out
+rectangle.lisp - as above
+renderer.lisp - again as above
+rwops.lisp - will be ok, waiting on this one
+util.lisp - See where these are still used, remove if not. Their place is really in the game utils library
+video.lisp - Much is good in here but could do with being reduced for tidiness
+
+
+----------------------------------------
+SDL Manual
+----------
+- Surfaces must be locked before reading or writing pixels.
+
+Initialising SDL to use OpenGL is not very different to initialising SDL normally. There are three
+differences; 
+* you must pass SDL_OPENGL to SDL_SetVideoMode
+* you must specify several GL attributes (depth buffer size, framebuffer sizes) using SDL_GL_SetAttribute 
+* if  use double buffering  must specify as GL attribute, not by passing SDL_DOUBLEBUF flag to SDL_SetVideoMode.
+
+if using opengl need video subsystem - seems obvious but even if using just for gpu computing
+
+

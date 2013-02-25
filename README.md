@@ -11,4 +11,7 @@ programming and will leave scene graphs and such to other packages.
 
 I'll update this readme when there is anything new and interesting here!
 
+{WARNING} Things are almost certainly broken in here! Until I 
+have read thorugh all the source code this warning will remain.
+
 Forked from a Git conversion of lispbuilder's SVN repository.
