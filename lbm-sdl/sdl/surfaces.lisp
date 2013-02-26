@@ -148,20 +148,20 @@ return `INFO` as `T` or `NIL` if supported by the surface.
 (defmethod (setf clip-rect) (value (surface sdl-surface))
   (set-clip-rect value :surface surface))
 
-(defun clear-clip-rect (&optional (surface *default-surface*))
+(defun clear-clip-rect (surface)
   "Removes the clipping [RECTANGLE](#rectangle)."
   (check-type surface sdl-surface)
   (set-clip-rect NIL :surface surface)
   t)
 
-(defun get-clip-rect (&key (surface *default-surface*) (rectangle (rectangle)))
+(defun get-clip-rect (surface &key (rectangle (rectangle)))
   "Returns the clipping [RECTANGLE](#rectangle)."
   (check-type surface sdl-surface)
   (check-type rectangle rectangle)
   (sdl-base::get-clip-rect (fp surface) (fp rectangle))
   rectangle)
 
-(defun set-clip-rect (rectangle &key (surface *default-surface*))
+(defun set-clip-rect (rectangle surface)
   "See [CLIP-RECT](#clip-rect)."
   (check-type surface sdl-surface)
   (when rectangle (check-type rectangle rectangle))
@@ -169,7 +169,7 @@ return `INFO` as `T` or `NIL` if supported by the surface.
       (sdl-base::set-clip-rect (fp surface) (fp rectangle))
       (sdl-base::set-clip-rect (fp surface) (cffi:null-pointer))))
 
-(defun get-surface-rect (&key (surface *default-surface*) (rectangle (rectangle)))
+(defun get-surface-rect (surface &key (rectangle (rectangle)))
   (check-type surface sdl-surface)
   (check-type rectangle rectangle)
   (sdl-base::get-surface-rect (fp surface) (fp rectangle))

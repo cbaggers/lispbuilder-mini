@@ -9,10 +9,6 @@
 
 ;;;; Globals
 
-(defvar *default-surface* nil
-  "Functions that accept the `KEY`word parameter `:SURFACE` will most likely bind to the 
-symbol `\*DEFAULT-SURFACE*\` by default if `SURFACE` is not specified.")
-
 (defvar *default-display* nil
   "The symbol `\*DEFAULT-DISPLAY\*` is bound to the current display surface 
 [DISPLAY-SURFACE](#display-surface)) by the function [WINDOW](#WINDOW)).")

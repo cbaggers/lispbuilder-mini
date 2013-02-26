@@ -70,7 +70,6 @@
   (:export
 
    ;; globals.lisp
-   #:*default-surface*
    #:*default-display*
    #:*default-position*
    #:*default-rectangle*
@@ -79,7 +78,6 @@
    #:*default-audio-path*
    #:*default-image-path*
    
-   #:*default-surface*
    #:*default-position*
    #:*default-rectangle*
 
