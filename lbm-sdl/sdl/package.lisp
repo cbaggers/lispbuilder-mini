@@ -283,8 +283,6 @@
    #:surface
    #:display-surface
    #:rle-accel-enabled-p
-   #:enable-rle-accel
-   #:get-surface-rect
    #:convert-surface
    #:convert-to-display-format
    #:copy-surface

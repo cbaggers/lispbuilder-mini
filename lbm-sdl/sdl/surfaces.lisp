@@ -52,17 +52,6 @@
   "Sets the integer `Y` position coordinate of `SURFACE`."  
   (setf (y (position-rect surface)) y-val))
 
-(defmethod set-surface ((surface sdl-surface) (position vector))
-  "See [SET-POINT](#set-point)."
-  (set-surface-* surface :x (x position) :y (y position))
-  surface)
-
-(defmethod set-surface-* ((surface sdl-surface) &key x y)
-  "See [SET-POINT-*](#set-point-*)."
-  (when x (setf (x surface) x))
-  (when y (setf (y surface) y))
-  surface)
-
 (defmethod rectangle-* ((surface sdl-surface))
   "Returns the fields `X`, `Y`, `WIDTH` and `HEIGHT` from `SURFACE` as a spread."
   (values (x surface) (y surface) (width surface) (height surface)))
@@ -92,11 +81,4 @@
     (remove nil (mapcar #'check-feature `((sdl-any-format 'sdl-any-format)
                                           (sdl-fullscreen 'sdl-fullscreen)
                                           (sdl-resizable 'sdl-resizable)
-                                          (sdl-rle-accel 'sdl-rle-accel)
                                           (sdl-pre-alloc 'sdl-pre-alloc))))))
-
-(defun get-surface-rect (surface &key (rectangle (rectangle)))
-  (check-type surface sdl-surface)
-  (check-type rectangle rectangle)
-  (sdl-base::get-surface-rect (fp surface) (fp rectangle))
-  rectangle)
