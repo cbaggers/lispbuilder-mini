@@ -23,11 +23,7 @@
    lbm-sdl-cffi::sdl-init-eventthread
    lbm-sdl-cffi::sdl-init-noparachute
 
-   lbm-sdl-cffi::sdl-sw-surface
-   lbm-sdl-cffi::sdl-hw-surface
-   lbm-sdl-cffi::sdl-async-blit
    lbm-sdl-cffi::sdl-any-format
-   lbm-sdl-cffi::sdl-hw-palette
    lbm-sdl-cffi::sdl-doublebuf
    lbm-sdl-cffi::sdl-fullscreen
    lbm-sdl-cffi::sdl-opengl
@@ -69,9 +65,7 @@
    #:image-version-at-least
 
    #:*image-loaded-p*
-   #:*glue-loaded-p*
-
-   )
+   #:*glue-loaded-p*)
 
   (:export
 
@@ -145,10 +139,6 @@
    ;;generics.lisp
    #:fp
    #:fp-position
-   #:r
-   #:g
-   #:b
-   #:a
    #:width
    #:height
    #:x
@@ -159,15 +149,6 @@
    #:free
    #:w
    #:h
-
-   #:point-*
-   #:get-point
-   #:set-point
-   #:set-point-*
-   #:position-*
-   #:get-position
-   #:set-position
-   #:set-position-*
 
    #:rectangle-*
    #:get-rectangle

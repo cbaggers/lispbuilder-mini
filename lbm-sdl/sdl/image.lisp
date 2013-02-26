@@ -187,17 +187,6 @@
         (error "ERROR: LOAD-IMAGE; cannot load file '~a'" (sdl-cffi::sdl-get-error))
         image)))
 
-
-
-;; [TODO] these use surface, not good
-(defmethod save-image ((surface sdl-surface) (filename string))
-  "Saves the ptr as a `BMP` image to a file at location `FILENAME`."
-  (sdl-cffi::SDL-Save-BMP-RW (fp surface) (sdl-cffi::SDL-RW-FROM-FILE filename "wb") 1))
-
-(defmethod save-image ((surface sdl-surface) (filename pathname))
-  "Saves the ptr as a `BMP` image to a file at location `FILENAME`."
-  (save-image surface (namestring filename)))
-
 (defun load-image-from-byte-sequence (array)
   (let ((mem-array (cffi:foreign-alloc :unsigned-char :initial-contents array)))
     (sdl-cffi::sdl-load-bmp-rw (sdl-cffi::sdl-rw-from-mem mem-array (length array)) 1)))

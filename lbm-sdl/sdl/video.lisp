@@ -135,7 +135,7 @@
                 :double-buffer double-buffer
                 :swap-control swap-control)))
 
-(defun update-display (&optional (surface *default-display*))
+(defun update-display ()
   "`UPDATE-DISPLAY` will call sdl-gl-swap-buffers to update the OpenGL display."
   (sdl-cffi::sdl-gl-swap-buffers))
 

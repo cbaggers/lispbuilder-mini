@@ -121,13 +121,6 @@ Audio formats are defined in `SDL_audio.h`;
 (defconstant +MAX-AUDIO-8+ (- (ash 1 (- 8 1)) 1))
 (defconstant +MIN-AUDIO-8+ (* -1 (ash 1 (- 8 1))))
 
-;; (declaim (INLINE renderer))
-;; (defun renderer ()
-;;   *renderer*)
-;; (defsetf renderer set-renderer)
-;; (defun set-renderer (renderer)
-;;   (setf *renderer* renderer))
-
 (defparameter *event-filters* t)
 
 (defparameter *filter-active-event* nil)

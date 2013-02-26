@@ -52,19 +52,6 @@
    "This object is garbage collected and the `SDL_Surface` object freed when out of scope.
 Free using [FREE](#free)."))
 
-(defclass pinned-surface (surface)
-  ((pinned-vector
-    :accessor pinned-vector
-    :initform nil
-    :initarg :pinned-vector))
-  (:default-initargs
-   :display-surface-p nil
-    :gc t
-    :free (simple-free 'sdl-cffi::sdl-free-surface 'surface))
-  (:documentation
-   "This object is garbage collected and the `SDL_Surface` object freed when out of scope.
-Free using [FREE](#free)."))
-
 (defclass rectangle-array ()
   ((foreign-pointer-to-rectangle :accessor fp :initform nil :initarg :rectangle)
    (length :reader len :initform nil :initarg :length)))
@@ -228,44 +215,6 @@ Free using [FREE](#free)."))
 (defmethod (setf y) (y-val (surface sdl-surface))
   "Sets the integer `Y` position coordinate of `SURFACE`."  
   (setf (y (position-rect surface)) y-val))
-
-(defmethod point-* ((surface sdl-surface))
-  "Returns the `X` and `Y` position coordinates of `SURFACE` as a spread."
-  (values (x surface) (y surface)))
-
-(defmethod get-point ((surface sdl-surface))
-  "Returns the `POINT` position coordinates of `SURFACE`."
-  (vector (x surface) (y surface)))
-
-(defmethod set-point ((surface sdl-surface) (position vector))
-  "Sets the `POINT` position coordinates of `SURFACE`."
-  (set-point-* surface :x (x position) :y (y position))
-  surface)
-
-(defmethod set-point-* ((surface sdl-surface) &key x y)
-  "Sets the `X` and `Y` position coordinates of `SURFACE`. `X` and `Y` are integers."
-  (when x (setf (x surface) x))
-  (when y (setf (y surface) y))
-  surface)
-
-(defmethod position-* ((surface sdl-surface))
-  "See [POSITION](#position)."
-  (values (x surface) (y surface)))
-
-(defmethod get-position ((surface sdl-surface))
-  "See [GET-POINT](#get-point)."
-  (point :x (x surface) :y (y surface)))
-
-(defmethod set-position ((surface sdl-surface) (position vector))
-  "See [SET-POINT](#set-point)."
-  (set-position-* surface :x (x position) :y (y position))
-  surface)
-
-(defmethod set-position-* ((surface sdl-surface) &key x y)
-  "See [SET-POINT-*](#set-point-*)."
-  (when x (setf (x surface) x))
-  (when y (setf (y surface) y))
-  surface)
 
 (defmethod set-surface ((surface sdl-surface) (position vector))
   "See [SET-POINT](#set-point)."

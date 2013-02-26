@@ -4,17 +4,6 @@
 
 (in-package #:lbm-sdl)
 
-(defgeneric point-* (point)
-    (:documentation "Returns the `X` and `Y` coordinates of the object as a spread. 
-The `RESULT` is `\(VALUES X Y\)`"))
-(defgeneric set-point (dst src)
-  (:documentation "Copies the `X` and `Y` coordinates to the destination `DST` from the source `SRC`."))
-(defgeneric set-point-* (obj &key x y)
-  (:documentation "Sets the `X` and `Y` coordinates of the object `OBJ`. `X` and `Y` are `KEY`word parameters."))
-
-(defgeneric get-point (object)
-  (:documentation "Returns the `X` and `Y` coordinates of object `OBJ` as a `POINT`."))
-
 (defgeneric position-* (obj)
   (:documentation "See [POINT-*](#point-*)"))
 (defgeneric set-position (dst src)

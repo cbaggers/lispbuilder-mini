@@ -167,23 +167,6 @@ The coordinates of the rectangle are X = X1, Y = Y1, WIDTH = \(- X2 X1\), HEIGHT
   "Sets the `INTEGER` height of the rectangle `RECTANGLE`."
   (setf (sdl-base::rect-h (fp rectangle)) h-val))
 
-(defmethod point-* ((rectangle rectangle))
-  "Returns the `X` and `Y` coordinates of the rectangle `RECTANGLE` as a spread. 
-  The `RESULT` is `\(VALUES X Y\)`"
-  (values (x rectangle) (y rectangle)))
-
-(defmethod get-point ((rectangle rectangle))
-  "Returns the `X` and `Y` coordinates of rectangle `RECTANGLE` as a `POINT`."
-  (vector (x rectangle) (y rectangle)))
-
-(defmethod set-point ((rectangle rectangle) (position vector))
-  "Copies the `X` and `Y` coordinates to the destination rectangle `RECTANGLE` from the source point `POSITION`."
-  (set-rectangle-* rectangle :x (x position) :y (y position)))
-
-(defmethod set-point-* ((rectangle rectangle) &key x y)
-  "Sets the `X` and `Y` coordinates of the rectangle `RECTANGLE`. `X` and `Y` are `KEY`word parameters."
-  (set-rectangle-* rectangle :x x :y y))
-
 (defmethod position-* ((rectangle rectangle))
   "See [POINT-*](#point-*)"
   (values (x rectangle) (y rectangle)))
