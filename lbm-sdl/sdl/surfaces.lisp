@@ -12,14 +12,6 @@
     :reader position-rect
     :initform (rectangle)
     :initarg :position)
-   (cell-index
-    :accessor cell-index
-    :initform 0
-    :initarg :cell-index)
-   (cells
-    :reader cells
-    :initform nil
-    :initarg :cells)
    (display-surface-p
     :accessor display-surface-p
     :initform nil
@@ -42,41 +34,6 @@
 (defmethod initialize-instance :before ((surface sdl-surface) &key)
   (unless (initialized-subsystems-p)
     (error "ERROR: The SDL library must be initialized prior to use.")))
-
-(defmethod (setf cells) ((num integer) (self sdl-surface))
-  (setf (slot-value self 'cells) (make-array num :initial-element (get-rectangle-* self)))
-  (setf (cell-index self) 0))
-
-(defmethod (setf cells) ((rects list) (self sdl-surface))
-  (setf (slot-value self 'cells) (make-array (length rects) :initial-contents (loop for rect in rects
-                                                                                 collect (copy-rectangle rect))))
-  (setf (cell-index self) 0))
-
-(defmethod (setf cells) ((rects vector) (self sdl-surface))
-  (setf (slot-value self 'cells) (make-array (length rects) :initial-contents (loop for rect across rects
-                                                                                 collect (copy-rectangle rect))))
-  (setf (cell-index self) 0))
-
-(defmethod (setf cells) ((rect rectangle) (self sdl-surface))
-  (setf (slot-value self 'cells) (make-array 1 :initial-element (copy-rectangle rect)))
-  (setf (cell-index self) 0))
-
-(defmethod copy-cells ((self sdl-surface) &optional index)
-  (copy-cells (cells self) index))
-
-(defmethod copy-cells ((self vector) &optional index)
-  (if index
-      (make-array 1 :initial-element (copy-rectangle (aref self index)))
-      (make-array (length self) :initial-contents (loop for cell across self
-                                                     collect (copy-rectangle cell)))))
-
-(defmethod copy-cells ((self rectangle) &optional index)
-  (declare (ignorable index))
-  (make-array 1 :initial-element (copy-rectangle self)))
-
-(defmethod reset-cells ((self sdl-surface))
-  (setf (slot-value self 'cells) (make-array 1 :initial-element (get-rectangle-* self)))
-  (setf (cell-index self) 0))
 
 (defmethod width ((surface sdl-surface))
   "Returns the width of `SURFACE` as an `INTEGER`."
@@ -211,53 +168,6 @@ return `INFO` as `T` or `NIL` if supported by the surface.
   (if rectangle
       (sdl-base::set-clip-rect (fp surface) (fp rectangle))
       (sdl-base::set-clip-rect (fp surface) (cffi:null-pointer))))
-
-(defun get-cell (&key (surface *default-surface*) (index 0))
-  "Returns a [RECTANGLE](#rectangle) describing the bounds of `CELL` at the specified `INDEX`.
-*Note:* When `SURFACE` is the source of a blit, only the area within the cell rectangle is drawn."
-  (check-type surface sdl-surface)
-  (aref (cells surface) index))
-
-(defun current-cell (&key (surface *default-surface*))
-  "Returns the [RECTANGLE](#rectangle) describing the bounds of the current `CELL`.
-*Note:* When `SURFACE` is the source of a blit, only the area within the cell rectangle is drawn."
-  (get-cell :surface surface :index (cell-index surface)))
-
-(defun clear-cell (&key (surface *default-surface*) (index nil))
-  "Sets the `CELL` at `INDEX` to the bounds of `SURFACE`."
-  (check-type surface sdl-surface)
-  (unless index
-    (setf index (cell-index surface)))
-  (with-rectangle (cell (get-cell :surface surface :index index) nil)
-    (setf cell.x (x surface)
-          cell.y (y surface)
-          cell.w (width surface)
-          cell.h (height surface))
-    cell))
-
-(defun set-cell (rectangle &key (surface *default-surface*) (index nil))
-  "Sets the `CELL` at `INDEX` to the bounds of `RECTANGLE`.
-*Note:* When `SURFACE` is the source of a blit, only the area within the cell rectangle is drawn."
-  (check-type surface sdl-surface)
-  (check-type rectangle rectangle)
-  (unless index
-    (setf index (cell-index surface)))
-  (let ((rect (get-cell :surface surface :index index)))
-    (sdl-base::copy-rectangle (fp rectangle) (fp rect))
-    (get-cell :surface surface :index index)))
-
-(defun set-cell-* (x y w h &key (surface *default-surface*) (index nil))
-  "Sets the `CELL` at `INDEX` to a rectangle bounded by `X`, `Y`, `W` and `H`.
-*Note:* When `SURFACE` is the source of a blit, only the area within the cell rectangle is drawn."
-  (check-type surface sdl-surface)
-  (unless index
-    (setf index (cell-index surface)))
-  (with-rectangle (cell (get-cell :surface surface :index index) nil)
-    (setf cell.x x
-          cell.y y
-          cell.w w
-          cell.h h)
-    cell))
 
 (defun get-surface-rect (&key (surface *default-surface*) (rectangle (rectangle)))
   (check-type surface sdl-surface)

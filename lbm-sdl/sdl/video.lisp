@@ -96,9 +96,6 @@
               *default-display* self)
         (setf *default-display* nil)))
   (setf (slot-value self 'position-rect) (rectangle))
-  ;; Set the cells for the display
-  (setf (cells self) 1)
-  (setf (cell-index self) 0)
   ;; And set the captions
   (set-caption title-caption icon-caption))
 
