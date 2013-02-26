@@ -1,17 +1,31 @@
 lispbuilder-mini
 ================
 
-This is intended to be a stripped down version of the fantastic 
-lispbuilder package. I have personally found it a bit too bulky 
-and loaded with magic and I would like to see what areas can 
-be made thinner and more transparent.
+This is a stripped down version of the fantastic lispbuilder package. 
 
-It will be mainly focussed around using sdl for modern opengl 
-programming and will leave scene graphs and such to other packages.
+Why?
+----
+I want to have a package with the bare minimum for making modern 
+opengl games (or graphical demos). 
+SDL is wonderful but it has loads of facilities for non-opengl 2D
+rendering that I don't need.
 
-I'll update this readme when there is anything new and interesting here!
+So...Use lispbuilder and just ignore the bits you dont need.
+------------------------------------------------------------
+Aye, I could do that but quite often when you strip away all the
+parts you don't need there appears the possibility neater 
+abstractions over what remains. 
 
-{WARNING} Things are almost certainly broken in here! Until I 
-have read thorugh all the source code this warning will remain.
+I really don't want to cast any negative light on lispbuilder.
+It's wonderful. It's just that when everything, even 2D, is 
+being handled by opengl there are many practices and options
+that can be hardwired and thus can be ingored by the user (the
+person using this library).
 
-Forked from a Git conversion of lispbuilder's SVN repository.
+
+**WARNING** 
+Things are almost certainly broken in here!
+Until things have solidified a bit this warning will remain.
+
+
+*Forked from a Git conversion of lispbuilder's SVN repository.*
