@@ -28,7 +28,6 @@
              (:file "globals")
              (:file "generics")
              (:file "base")
-             (:file "util")
              (:file "init")
              (:file "mouse")
              (:file "events")

@@ -284,11 +284,6 @@
    #:sdl-surface
    #:surface
    #:display-surface
-   #:with-surface
-   #:with-surface-slots
-   #:with-surfaces
-   #:with-locked-surface
-   #:with-locked-surfaces
    #:rle-accel-enabled-p
    #:enable-rle-accel
    #:clip-rect

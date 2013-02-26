@@ -11,23 +11,7 @@
 
 (defvar *default-surface* nil
   "Functions that accept the `KEY`word parameter `:SURFACE` will most likely bind to the 
-symbol `\*DEFAULT-SURFACE*\` by default if `SURFACE` is not specified. 
-
-A surface is bound to `\*DEFAULT-SURFACE*\` by the following macros: [WITH-SURFACE](#with-surface), 
-and [WITH-SURFACES](#with-surfaces).
-
-##### Example
-
-    \(DRAW-SURFACE SURF-1 :SURFACE SDL:*DEFAULT-DISPLAY*\)
-    \(DRAW-SURFACE SURF-2 :SURFACE SDL:*DEFAULT-DISPLAY*\)
-    \(DRAW-SURFACE SURF-2 :SURFACE SDL:*DEFAULT-DISPLAY*\)
-
-The above can be shortened using by setting the `\*DEFAULT-SURFACE\*` to the display surface.
-
-    \(WITH-SURFACE \(DISP SDL:*DEFAULT-DISPLAY*\)
-      \(DRAW-SURFACE SURF-1\)
-      \(DRAW-SURFACE SURF-2\)
-      \(DRAW-SURFACE SURF-2\)\)")
+symbol `\*DEFAULT-SURFACE*\` by default if `SURFACE` is not specified.")
 
 (defvar *default-display* nil
   "The symbol `\*DEFAULT-DISPLAY\*` is bound to the current display surface 

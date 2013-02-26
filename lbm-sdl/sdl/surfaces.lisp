@@ -43,80 +43,6 @@
   (unless (initialized-subsystems-p)
     (error "ERROR: The SDL library must be initialized prior to use.")))
 
-(defclass surface (sdl-surface) ()
-  (:default-initargs
-   :display-surface-p nil
-    :gc t
-    :free (simple-free 'sdl-cffi::sdl-free-surface 'surface))
-  (:documentation
-   "This object is garbage collected and the `SDL_Surface` object freed when out of scope.
-Free using [FREE](#free)."))
-
-(defclass rectangle-array ()
-  ((foreign-pointer-to-rectangle :accessor fp :initform nil :initarg :rectangle)
-   (length :reader len :initform nil :initarg :length)))
-
-(defmethod initialize-instance :after ((surface surface)
-                                       &key using-surface
-                                         width height x y bpp
-                                         (type :sw)
-                                         rle-accel
-                                         (cells 1)
-                                         (cell-index 0)
-                                         mask
-                                         &allow-other-keys)
-  ;; A surface can be created any of four ways:
-  ;; 1) Using SDL_Surface in :SURFACE only. No surface parameters may be set.
-  ;; 2) Creating a new SDL_Surface from the SDL_Surface when :SURFACE and :WIDTH & :HEIGHT are set. Surface parameters may be set.
-  ;; 3) Using SDL_Surface when :USING-SURFACE is set. Surface parameters may be set.
-  ;; 4) Creating a new SDL_Surface when :WIDTH & :HEIGHT are set. Surface parameters may be set.
-
-  ;; Takes care of (2) and (4)
-  (if (and width height)
-      (setf (slot-value surface 'foreign-pointer-to-object)
-            (sdl-base::create-surface width
-                                      height
-                                      :surface (or (fp surface) using-surface)
-                                      :bpp bpp
-                                      :type type
-                                      :rle-accel rle-accel
-                                      :mask mask))
-      ;; Takes care of (3)
-      (if using-surface
-          (setf (slot-value surface 'foreign-pointer-to-object)
-                using-surface)))
-
-  (unless (cells surface)
-    (setf (cells surface) cells))
-  (if (> (length (cells surface)) cell-index)
-      (setf (cell-index surface) cell-index)
-      (setf (cell-index surface) 0))
-
-  (when x (setf (x surface) x))
-  (when y (setf (y surface) y)))
-
-(defmacro with-surface ((var &optional surface (free t))
-                        &body body)
-  (let ((body-value (gensym "body-value-"))
-        (free-value (gensym "free-value-")))
-    `(let ,(when surface
-                 `((,var ,surface)))
-       (let ((*default-surface* ,var)
-             (,body-value nil)
-             (,free-value ,free))
-         (symbol-macrolet ((,(intern (string-upcase (format nil "~A.width" var))) (width ,var))
-                           (,(intern (string-upcase (format nil "~A.height" var))) (height ,var))
-                           (,(intern (string-upcase (format nil "~A.x" var))) (x ,var))
-                           (,(intern (string-upcase (format nil "~A.y" var))) (y ,var)))
-           (declare (ignorable ,(intern (string-upcase (format nil "~A.width" var)))
-                               ,(intern (string-upcase (format nil "~A.height" var)))
-                               ,(intern (string-upcase (format nil "~A.x" var)))
-                               ,(intern (string-upcase (format nil "~A.y" var)))))
-           (setf ,body-value (progn ,@body)))
-         (when ,free-value
-           (free ,var))
-         ,body-value))))
-
 (defmethod (setf cells) ((num integer) (self sdl-surface))
   (setf (slot-value self 'cells) (make-array num :initial-element (get-rectangle-* self)))
   (setf (cell-index self) 0))
@@ -151,48 +77,6 @@ Free using [FREE](#free)."))
 (defmethod reset-cells ((self sdl-surface))
   (setf (slot-value self 'cells) (make-array 1 :initial-element (get-rectangle-* self)))
   (setf (cell-index self) 0))
-
-(defmacro with-surface-slots ((var &optional surface)
-                              &body body)
-  `(with-surface (,var ,surface nil)
-     ,@body))
-
-(defmacro with-surfaces (bindings &rest body)
-  (if bindings
-      (return-with-surface bindings body)))
-
-(defun return-with-surface (bindings body)
-  (if bindings
-      `(with-surface (,@(car bindings))
-         ,(return-with-surface (cdr bindings) body))
-      `(progn ,@body)))
-
-(defmacro with-locked-surface ((var &optional surface)
-                               &body body)
-  (let ((body-value (gensym "body-value-")))
-    `(let ,(when surface
-                 `((,var ,surface)))
-       (let ((*default-surface* ,var)
-             (,body-value nil))
-         (with-surface (,var ,surface nil)
-           (unwind-protect 
-                (progn (when (must-lock? (fp ,var))
-                         (when (/= (sdl-cffi::sdl-Lock-Surface (fp ,var)) 0)
-                           (error "Cannot lock surface")))
-                       (setf ,body-value (progn ,@body)))
-             (when (must-lock? (fp ,var))
-               (Sdl-Cffi::Sdl-Unlock-Surface (fp ,var)))))
-         ,body-value))))
-
-(defmacro with-locked-surfaces (bindings &rest body)
-  (if bindings
-      (return-with-locked-surfaces bindings body)))
-
-(defun return-with-locked-surfaces (bindings body)
-  (if bindings
-      `(with-locked-surface (,@(car bindings))
-         ,(return-with-locked-surfaces (cdr bindings) body))
-      `(progn ,@body)))
 
 (defmethod width ((surface sdl-surface))
   "Returns the width of `SURFACE` as an `INTEGER`."
@@ -302,14 +186,6 @@ return `INFO` as `T` or `NIL` if supported by the surface.
                                 (list SDL-SRC-ALPHA 'SDL-SRC-ALPHA)
                                 (list SDL-PRE-ALLOC 'SDL-PRE-ALLOC))))))
 
-(defmethod hardware-surface-p ((surface sdl-surface))
-  "Returns `T` if the surface is stored in video memory."
-  (get-surface-attribute (fp surface) sdl-hw-surface))
-(defmethod software-surface-p ((surface sdl-surface))
-  "Returns `T` if the surface is stored in system memory."
-  (get-surface-attribute (fp surface) sdl-sw-surface))
-
-
 (defmethod clip-rect ((surface sdl-surface))
   (get-clip-rect :surface surface))
 (defmethod (setf clip-rect) (value (surface sdl-surface))
@@ -388,5 +264,3 @@ return `INFO` as `T` or `NIL` if supported by the surface.
   (check-type rectangle rectangle)
   (sdl-base::get-surface-rect (fp surface) (fp rectangle))
   rectangle)
-
-
