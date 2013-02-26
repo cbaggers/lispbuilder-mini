@@ -7,18 +7,11 @@
 
 (in-package #:lbm-sdl)
 
-(defun collect-sdl-event-types ()
+(defun collect-event-types ()
   (let ((x (sdl:new-event)))
     (loop until (= 0 (lbm-sdl-cffi::sdl-poll-event x))
 	  collect (sdl:event-type x))
     (sdl:free-event x)))
-
-(defun get-sdl-event (&optional event)
-  (let ((event (or event (sdl:new-event))))
-    (if (= (sdl-cffi::SDL-Poll-Event event) 0)
-        (progn (sdl:free-event event)
-               nil)
-        event)))
 
 (defmacro case-events ((event-var) &body cases)
   (if (symbolp event-var)
@@ -116,7 +109,7 @@
 
 (defun event-type (sdl-event)
   (if (keywordp sdl-event)
-      :idle
+      nil
       (get-event-type sdl-event)))
 
 (defun event= (sdl-event event-type &optional event-type-end)
@@ -419,10 +412,12 @@ the `OPTIONAL` event type `EVENT-TYPE` is unspecified.
 (defun free-event (event*)
   (cffi:foreign-free event*))
 
-(defun get-event (event)
-  (if (= (sdl-cffi::SDL-Poll-Event event) 0)
-      :idle
-      event))
+(defun get-event (&optional event)
+  (let ((event (or event (sdl:new-event))))
+    (if (= (sdl-cffi::SDL-Poll-Event event) 0)
+        (progn (sdl:free-event event)
+               nil)
+        event)))
 
 (defun push-quit-event ()
   "Pushes a new `SDL_Event` of type `:QUIT-EVENT` onto the event queue."

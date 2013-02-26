@@ -155,24 +155,11 @@
    #:cast-to-int
 
    ;; events.lisp
-   #:collect-sdl-event-types
-   #:get-sdl-event
+   #:collect-event-types
    #:case-events
-   #:event=
-   #:set-event-filter
-   #:remove-event-filter
-   #:remove-all-event-filters
-   #:enable-event-filters
-   #:disable-event-filters
-   #:new-event
-   #:free-event
-   #:quit-requested-p
-   #:push-quit-event
-   #:push-user-event
-   #:pump-events
    #:get-event-type
    #:event-type
-
+   #:event=
    #:active-event-p
    #:key-down-event-p
    #:key-up-event-p
@@ -190,6 +177,18 @@
    #:quit-event-p
    #:user-event-p
    #:idle-event-p
+
+   #:set-event-filter
+   #:remove-event-filter
+   #:remove-all-event-filters
+   #:enable-event-filters
+   #:disable-event-filters
+   #:new-event
+   #:free-event
+   #:quit-requested-p
+   #:push-quit-event
+   #:push-user-event
+   #:pump-events
    #:get-event
    #:with-active-event
    #:with-key-down-event
@@ -205,42 +204,45 @@
    #:with-video-resize-event
    #:with-user-event
    
-   #:active-event-gain
-   #:active-event-state
-   #:key-event-state
-   #:key-event-scancode
-   #:key-event-key
-   #:key-event-mod
-   #:key-event-mod-key
-   #:key-event-unicode
+   #:active-gain
+   #:active-state
+   #:key-state
+   #:key-scancode
+   #:key-key
+   #:key-mod
+   #:key-mod-key
+   #:key-unicode
+   #:mouse-motion-button
+   #:mouse-motion-x
+   #:mouse-motion-y
+   #:mouse-motion-x-rel
+   #:mouse-motion-y-rel
+   #:mouse-button-button
+   #:mouse-button-state
+   #:mouse-button-x
+   #:mouse-button-y
+
    #:mouse-motion-event-state
-   #:mouse-motion-event-x
-   #:mouse-motion-event-y
-   #:mouse-motion-event-x-rel
-   #:mouse-motion-event-y-rel
-   #:mouse-button-event-button
-   #:mouse-button-event-state
-   #:mouse-button-event-x
-   #:mouse-button-event-y
-   #:joy-axis-motion-event-which
-   #:joy-axis-motion-event-axis
-   #:joy-axis-motion-event-value
-   #:joy-hat-motion-event-which
-   #:joy-hat-motion-event-axis
-   #:joy-hat-motion-event-value
-   #:joy-ball-motion-event-which
-   #:joy-ball-motion-event-ball
-   #:joy-ball-motion-event-x-rel
-   #:joy-ball-motion-event-y-rel
-   #:joy-button-event-which
-   #:joy-button-event-button
-   #:joy-button-event-state
-   #:user-event-type
-   #:user-event-code
-   #:user-event-data1
-   #:user-event-data2
-   #:video-resize-event-w
-   #:video-resize-event-h
+
+   #:joy-axis-motion-which
+   #:joy-axis-motion-axis
+   #:joy-axis-motion-value
+   #:joy-hat-motion-which
+   #:joy-hat-motion-axis
+   #:joy-hat-motion-value
+   #:joy-ball-motion-which
+   #:joy-ball-motion-ball
+   #:joy-ball-motion-x-rel
+   #:joy-ball-motion-y-rel
+   #:joy-button-which
+   #:joy-button-button
+   #:joy-button-state
+   #:user-type
+   #:user-code
+   #:user-data1
+   #:user-data2
+   #:video-resize-w
+   #:video-resize-h
 
    ;; image.lisp
    #:supported-image-formats
