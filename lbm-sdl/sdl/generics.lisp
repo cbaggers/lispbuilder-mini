@@ -156,7 +156,12 @@ will be released automatically by SDL.
     \(WINDOW 320 240 :TITLE-CAPTION \"Random-Rects\" :ICON-CAPTION \"Random-Rects\"
                      :FLAGS \'(SDL-DOUBLEBUF SDL-FULLSCREEN\)\)"))
 
-(defgeneric resize-window (width height &key flags sw hw fullscreen async-blit any-format palette double-buffer opengl resizable no-frame
-				 title-caption icon-caption bpp opengl-attributes)
+(defgeneric resize-window (width height &key bpp 
+                                          title-caption icon-caption fullscreen 
+                                          any-format resizable no-frame alpha-size  
+                                          depth-size  stencil-size  red-size 
+                                          green-size  blue-size  double-buffer
+                                          swap-control )
+  
   (:documentation
    "Resizes the current display to the specified `WIDTH` and `HEIGHT`. The pixel depth, title and icon captions, and surface flags will remain the same"))

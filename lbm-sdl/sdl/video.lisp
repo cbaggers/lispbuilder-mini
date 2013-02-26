@@ -65,7 +65,7 @@
     (error "ERROR Cannot initialize the video subsystem. Cannot create the display surface~%")))
 
 (defmethod initialize-instance :after 
-    ((self display) &key (width 0) (height 0) (bpp 0) 
+    ((self display) &key (width 640) (height 480) (bpp 0) 
                       (title-caption "") (icon-caption "") fullscreen 
                       any-format resizable no-frame (alpha-size 0) 
                       (depth-size 16) (stencil-size 8) (red-size 8)
@@ -108,7 +108,7 @@
       window)))
 
 (defmethod resize-window 
-    (width height &key (width 0) (height 0) bpp 
+    (width height &key bpp 
                     (title-caption "") (icon-caption "") fullscreen 
                     any-format resizable no-frame (alpha-size 0) 
                     (depth-size 16) (stencil-size 8) (red-size 8)
