@@ -229,19 +229,24 @@ already initialized.
           (list-subsystems (sdl:return-subsystems-of-status (sdl-base::set-flags subsystem) t)))
       (list-subsystems (sdl:return-subsystems-of-status (sdl-base::set-flags sdl:sdl-init-everything) t))))
 
-(defun init-sdl (&key flags
-                   force video cdrom audio joystick no-parachute)
+(defun init-sdl (&key force video cdrom audio joystick 
+                   no-parachute)
   "Initalizes the SDL library."
-  (unless flags
-    (setf flags (remove nil (list (when video sdl-init-video)
-                                  (when cdrom sdl-init-cdrom)
-                                  (when audio sdl-init-audio)
-                                  (when joystick sdl-init-joystick)
-                                  (when no-parachute sdl-init-noparachute)))))
   (let ((init? (when (sdl-base::init-sdl)
-                 (init-subsystems (sdl-base::set-flags flags) force))))
+                 (init-subsystems 
+                  (sdl-base::set-flags 
+                   (remove nil (list (when video sdl-init-video)
+                                     (when cdrom sdl-init-cdrom)
+                                     (when audio sdl-init-audio)
+                                     (when joystick 
+                                       sdl-init-joystick)
+                                     (when no-parachute 
+                                       sdl-init-noparachute)))) 
+                  force))))
     (dolist (fn *external-init-subsystems-on-startup*)
       (funcall fn))
+    (setf cl-opengl-bindings:*gl-get-proc-address* 
+          #'sdl-cffi::sdl-gl-get-proc-address)
     init?))
 
 (defun quit-sdl (&key flags force

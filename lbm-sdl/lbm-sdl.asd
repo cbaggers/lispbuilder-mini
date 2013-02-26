@@ -15,9 +15,10 @@
   :author "Justin Heyes-Jones <justinhj@gmail.com>, Luke J Crook <luke@balooga.com>"
   :maintainer "Application Builder <application-builder@lispniks.com>, Luke J Crook <luke@balooga.com>"
   :licence "MIT"
-  :depends-on (cffi 
-               trivial-garbage
-               lbm-sdl-base)
+  :depends-on (#:cffi 
+               #:trivial-garbage
+               lbm-sdl-base
+               #:cl-opengl)
   :perform (load-op :after (op lbm-sdl)
                     (pushnew :lbm-sdl *features*))
   :components

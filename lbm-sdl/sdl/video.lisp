@@ -67,7 +67,7 @@
 (defmethod initialize-instance :after 
     ((self display) &key (width 640) (height 480) (bpp 0) 
                       (title-caption "") (icon-caption "") fullscreen 
-                      any-format resizable no-frame (alpha-size 0) 
+                      any-format (resizable t) no-frame (alpha-size 0) 
                       (depth-size 16) (stencil-size 8) (red-size 8)
                       (green-size 8) (blue-size 8) (buffer-size 32)
                       (double-buffer t) (swap-control t))
