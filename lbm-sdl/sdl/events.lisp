@@ -8,10 +8,11 @@
 (in-package #:lbm-sdl)
 
 (defun collect-event-types ()
-  (let ((x (sdl:new-event)))
-    (loop until (= 0 (lbm-sdl-cffi::sdl-poll-event x))
-	  collect (sdl:event-type x))
-    (sdl:free-event x)))
+  (let* ((x (sdl:new-event))
+        (event-types (loop until (= 0 (sdl-cffi::sdl-poll-event x))
+                        collect (sdl:event-type x))))
+    (sdl:free-event x)
+    event-types))
 
 (defmacro case-events ((event-var) &body cases)
   (if (symbolp event-var)
