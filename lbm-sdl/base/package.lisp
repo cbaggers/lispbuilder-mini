@@ -29,26 +29,10 @@
    #:create-RWops-from-file
 
    ;; surfaces.lisp
-   #:with-locked-surface
-   #:with-possible-lock-and-update
    #:with-surface
    #:with-surfaces
    #:with-surface-free
-   #:clear-colorkey
-   #:set-colorkey
    #:get-surface-rect
-   #:convert-surface-to-display-format
-   #:copy-surface
-   #:create-surface
-   #:must-lock?
-   #:pixel-format
-   #:set-alpha
-   #:surf-w
-   #:surf-h
-   #:update-surface
-   #:blit-surface
-   #:fill-surface
-
 
    ;; video.lisp
    #:with-display

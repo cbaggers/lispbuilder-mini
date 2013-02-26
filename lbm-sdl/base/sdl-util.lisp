@@ -40,15 +40,3 @@
                      (first keyword-args))))
         (apply #'logior keywords))
       (apply #'logior keyword-args)))
-
-
-;; [TODO] This seems like the wrong place for this
-
-;; (defun load-image (filename)
-;;   "load in the supplied filename, must be a bmp file"
-;; ;  (format t "loading ~a~%" filename)
-;;   (let ((file (namestring filename)))
-;;     (if (and (stringp file) (probe-file file)) ; LJC: Make sure filename is a string and the filename exists.
-;;       (sdl-cffi::SDL-Load-BMP-RW (sdl-cffi::sdl-RW-From-File file "rb") 1)
-;;       (error "File ~A does not exist." file))))
-

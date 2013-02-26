@@ -22,7 +22,6 @@
   ((:module "base"
             :components
             ((:file "package")
-             (:file "pixel")
              (:file "util")
              (:file "rectangle")
              (:file "surfaces")
