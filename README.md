@@ -13,7 +13,7 @@ rendering that I don't need.
 So...Use lispbuilder and just ignore the bits you dont need.
 ------------------------------------------------------------
 Aye, I could do that but quite often when you strip away all the
-parts you don't need there appears the possibility neater 
+parts you don't need there appears the possibility of neater 
 abstractions over what remains. 
 
 I really don't want to cast any negative light on lispbuilder.

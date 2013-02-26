@@ -155,6 +155,9 @@
    #:cast-to-int
 
    ;; events.lisp
+   #:collect-sdl-event-types
+   #:get-sdl-event
+   #:case-events
    #:event=
    #:set-event-filter
    #:remove-event-filter
