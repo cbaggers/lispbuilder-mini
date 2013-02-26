@@ -284,10 +284,6 @@
    #:display-surface
    #:rle-accel-enabled-p
    #:enable-rle-accel
-   #:clip-rect
-   #:clear-clip-rect
-   #:get-clip-rect
-   #:set-clip-rect
    #:get-surface-rect
    #:convert-surface
    #:convert-to-display-format
@@ -302,7 +298,6 @@
    #:fill-surface
    #:fill-surface-*
    #:copy-channel-to-alpha
-   #:surface-info
 
    ;; video.lisp
    #:window

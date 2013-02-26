@@ -22,14 +22,9 @@
 (defclass display-surface (sdl-surface) ()
   (:default-initargs
    :display-surface-p t
-    :gc nil
-    :free #'(lambda (fp) fp))
+    :gc nil)
   (:documentation
    "The current display surface. Can be accessed using `SDL:*DEFAULT-DISPLAY*`."))
-
-(defmethod free ((self display-surface))
-  "Freeing the display surface is not a valid operation."
-  nil)
 
 (defmethod initialize-instance :before ((surface sdl-surface) &key)
   (unless (initialized-subsystems-p)
@@ -85,89 +80,20 @@
     (/= 0 (logand (cffi:foreign-slot-value surface 'sdl-cffi::sdl-surface 'sdl-cffi::flags)
                   attribute))))
 
-(defun surface-info (surface &optional (info nil))
-  "Returns information about the SDL surface `SURFACE`.
-
-##### Parameters
-
-* `SURFACE` is an SDL surface of type [SDL-SURFACE](#sdl-surface).
-* `INFO` must be one of `NIL`, [SDL-SW-SURFACE](#sdl-sw-surface), 
-[SDL-HW-SURFACE](#sdl-hw-surface), [SDL-ASYNC-BLIT](#sdl-async-blit),
-[SDL-ANY-FORMAT](#sdl-any-format), [SDL-HW-PALETTE](#sdl-hw-palette), 
-[SDL-DOUBLEBUF](#sdl-doublebuf), [SDL-FULLSCREEN](#sdl-fullscreen), 
-[SDL-OPENGL](#sdl-opengl), [SDL-RESIZABLE](#sdl-resizable)
-[SDL-HW-ACCEL](#sdl-hw-accel), [SDL-SRC-COLOR-KEY](#sdl-src-color-key),
-[SDL-RLE-ACCEL](#sdl-rle-accel), [SDL-SRC-ALPHA](#sdl-src-alpha)
- or [SDL-PRE-ALLOC](#sdl-pre-alloc).
-
-##### Returns
-
-`INFO` when `NIL` will return a list of all enabled surface flags. Otherwise will
-return `INFO` as `T` or `NIL` if supported by the surface.
-
-##### Example
-
-    \(SURFACE-INFO A-SURFACE '\(SDL-HW-SURFACE SDL-HW-PALETTE SDL-HW-ACCELL\)\)"
-  (check-type surface sdl-surface)
-  (if info
-      (let ((attribute (find info (list SDL-HW-SURFACE SDL-SW-SURFACE SDL-ASYNC-BLIT SDL-ANY-FORMAT
-                                        SDL-HW-PALETTE SDL-DOUBLEBUF SDL-FULLSCREEN
-                                        SDL-OPENGL SDL-RESIZABLE SDL-HW-ACCEL
-                                        SDL-SRC-COLOR-KEY SDL-RLE-ACCEL SDL-SRC-ALPHA
-                                        SDL-PRE-ALLOC))))
-        (if attribute
-            (if (eq (logand attribute
-                            (cffi:foreign-slot-value (fp surface) 'sdl-cffi::sdl-surface 'sdl-cffi::flags))
-                    attribute)
-                t
-                nil)))
-      (remove nil (mapcar #'(lambda (query)
-                              (let ((info (first query))
-                                    (description (second query)))
-                                (let ((result (logand (cffi:foreign-slot-value (fp surface) 'sdl-cffi::sdl-surface 'sdl-cffi::flags)
-                                                      info)))
-                                  (unless (eq result 0)
-                                    description))))
-                          (list (list SDL-HW-SURFACE 'SDL-HW-SURFACE)
-                                (list SDL-SW-SURFACE 'SDL-SW-SURFACE)
-                                (list SDL-ASYNC-BLIT 'SDL-ASYNC-BLIT)
-                                (list SDL-ANY-FORMAT 'SDL-ANY-FORMAT)
-                                (list SDL-HW-PALETTE 'SDL-HW-PALETTE)
-                                (list SDL-DOUBLEBUF 'SDL-DOUBLEBUF)
-                                (list SDL-FULLSCREEN 'SDL-FULLSCREEN)
-                                (list SDL-OPENGL 'SDL-OPENGL)
-                                (list SDL-RESIZABLE 'SDL-RESIZABLE)
-                                (list SDL-HW-ACCEL 'SDL-HW-ACCEL)
-                                (list SDL-SRC-COLOR-KEY 'SDL-SRC-COLOR-KEY)
-                                (list SDL-RLE-ACCEL 'SDL-RLE-ACCEL)
-                                (list SDL-SRC-ALPHA 'SDL-SRC-ALPHA)
-                                (list SDL-PRE-ALLOC 'SDL-PRE-ALLOC))))))
-
-(defmethod clip-rect ((surface sdl-surface))
-  (get-clip-rect :surface surface))
-(defmethod (setf clip-rect) (value (surface sdl-surface))
-  (set-clip-rect value :surface surface))
-
-(defun clear-clip-rect (surface)
-  "Removes the clipping [RECTANGLE](#rectangle)."
-  (check-type surface sdl-surface)
-  (set-clip-rect NIL :surface surface)
-  t)
-
-(defun get-clip-rect (surface &key (rectangle (rectangle)))
-  "Returns the clipping [RECTANGLE](#rectangle)."
-  (check-type surface sdl-surface)
-  (check-type rectangle rectangle)
-  (sdl-base::get-clip-rect (fp surface) (fp rectangle))
-  rectangle)
-
-(defun set-clip-rect (rectangle surface)
-  "See [CLIP-RECT](#clip-rect)."
-  (check-type surface sdl-surface)
-  (when rectangle (check-type rectangle rectangle))
-  (if rectangle
-      (sdl-base::set-clip-rect (fp surface) (fp rectangle))
-      (sdl-base::set-clip-rect (fp surface) (cffi:null-pointer))))
+(defun display-info ()
+  "Returns information about the display surface."
+  (labels ((check-feature (info description)                            
+             (unless (eq (logand (cffi:foreign-slot-value (fp surface) 
+                                                          'sdl-cffi::sdl-surface
+                                                          'sdl-cffi::flags)
+                                 info) 0) description))))
+  (let ((surface *default-display*))
+    (check-type surface sdl-surface)
+    (remove nil (mapcar #'check-feature `((sdl-any-format 'sdl-any-format)
+                                          (sdl-fullscreen 'sdl-fullscreen)
+                                          (sdl-resizable 'sdl-resizable)
+                                          (sdl-rle-accel 'sdl-rle-accel)
+                                          (sdl-pre-alloc 'sdl-pre-alloc))))))
 
 (defun get-surface-rect (surface &key (rectangle (rectangle)))
   (check-type surface sdl-surface)
