@@ -71,18 +71,10 @@
 
    ;; globals.lisp
    #:*default-display*
-   #:*default-position*
    #:*default-rectangle*
-
 
    #:*default-audio-path*
    #:*default-image-path*
-   
-   #:*default-position*
-   #:*default-rectangle*
-
-   #:*external-init-subsystems-on-startup*
-   #:*external-quit-subsystems-on-exit*
    #:*quit-on-exit*
 
    #:*mixer*
@@ -99,9 +91,6 @@
    #:+MAX-AUDIO-8+
    #:+MIN-AUDIO-8+
 
-   #:*allow-convert-to-display-format*
-   #:*sdl-event*
-   
    ;; init.lisp
    #:with-init
    #:initialize-subsystems-on-startup
@@ -249,7 +238,6 @@
    #:user-event-data2
    #:video-resize-event-w
    #:video-resize-event-h
-   
 
    ;; image.lisp
    #:supported-image-formats
@@ -264,11 +252,6 @@
    #:load-and-convert-image
    #:image-library-version
 
-   ;; point.lisp
-   #:with-point
-   #:point
-   #:copy-point
-
    ;; rectangle.lisp
    #:rectangle
    #:rectangle-from-edges-*
@@ -280,28 +263,12 @@
 
    ;; surfaces.lisp
    #:sdl-surface
-   #:surface
    #:display-surface
-   #:rle-accel-enabled-p
-   #:convert-surface
-   #:convert-to-display-format
-   #:copy-surface
-   #:create-surface
-   #:update-surface
-   #:update-surface-*
-   #:blit-surface
-   #:draw-surface
-   #:draw-surface-at-*
-   #:draw-surface-at
-   #:fill-surface
-   #:fill-surface-*
-   #:copy-channel-to-alpha
 
    ;; video.lisp
    #:window
    #:resize-window
    #:update-display
-   #:clear-display
 
    #:display-cursor
    #:video-driver-name
@@ -320,17 +287,6 @@
    #:double-buffered-p
    #:fullscreen-p
    #:resizable-p
-
-   #:hw-available-p
-   #:wm-available-p
-   #:blit-hw-p
-   #:blit-hw-cc-p
-   #:blit-hw-alpha-p
-   #:blit-sw-p
-   #:blit-sw-cc-p
-   #:blit-sw-a-p
-   #:blit-fill-p
-
    #:set-video-driver
    #:set-audio-driver
 
@@ -393,7 +349,6 @@
    #:unicode-enabled-p
    #:enable-unicode
    #:disable-unicode
-   
    #:enable-key-repeat
    #:disable-key-repeat
    #:key-repeat-enabled-p
@@ -414,13 +369,13 @@
    #:mods-down-p
 
    ;; mouse.lisp
-   #:MOUSE-LEFT
-   #:MOUSE-MIDDLE
-   #:MOUSE-RIGHT
-   #:MOUSE-WHEEL-UP
-   #:MOUSE-WHEEL-DOWN
-   #:MOUSE-X1
-   #:MOUSE-X2
+   #:mouse-left
+   #:mouse-middle
+   #:mouse-right
+   #:mouse-wheel-up
+   #:mouse-wheel-down
+   #:mouse-x1
+   #:mouse-x2
    #:mouse-x
    #:mouse-y
    #:mouse-position
@@ -457,22 +412,13 @@
    #:sdl-init-eventthread
    #:sdl-init-noparachute
    
-   #:sdl-sw-surface
-   #:sdl-hw-surface
-   #:sdl-async-blit
    #:sdl-any-format
-   #:sdl-hw-palette
    #:sdl-doublebuf
    #:sdl-fullscreen
    #:sdl-opengl
-   #:sdl-opengl-blit
    #:sdl-resizable
    #:sdl-no-frame
 
-   #:sdl-hw-accel
-   #:sdl-rle-accel-ok
-   #:sdl-rle-accel
-   #:sdl-src-alpha
    #:sdl-pre-alloc
    #:sdl-yv12-overlay
    #:sdl-iyuv-overlay
@@ -480,20 +426,20 @@
    #:sdl-uyvy-overlay
    #:sdl-yvyu-overlay
 
-   #:Num-Joysticks
-   #:SDL-Joystick-Name
+   #:num-joysticks
+   #:sdl-joystick-name
 
-   #:SDL-WM-GRAB-INPUT
+   #:sdl-wm-grab-input
 
-   #:SDL-BUTTON-LEFT
-   #:SDL-BUTTON-MIDDLE
-   #:SDL-BUTTON-RIGHT
-   #:SDL-BUTTON-WHEEL-UP
-   #:SDL-BUTTON-WHEEL-DOWN
-   #:SDL-BUTTON-X1
-   #:SDL-BUTTON-X2
+   #:sdl-button-left
+   #:sdl-button-middle
+   #:sdl-button-right
+   #:sdl-button-wheel-up
+   #:sdl-button-wheel-down
+   #:sdl-button-x1
+   #:sdl-button-x2
 
-   #:SDL-GL-GET-PROC-ADDRESS
+   #:sdl-gl-get-proc-address
 
    #:sdl-library-version
    #:version-number
@@ -512,7 +458,6 @@
    #:with-events
    #:push-quit-event
    #:key=
-
    #:is-valid-ptr
    #:push-user-event
 

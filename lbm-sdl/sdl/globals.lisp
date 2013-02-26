@@ -13,45 +13,17 @@
   "The symbol `\*DEFAULT-DISPLAY\*` is bound to the current display surface 
 [DISPLAY-SURFACE](#display-surface)) by the function [WINDOW](#WINDOW)).")
   
-(defvar *default-color* nil
-    "Functions that accept the `KEY`word parameter `COLOR` will most likely bind to the 
-symbol `\*DEFAULT-COLOR*\` by default if `COLOR` is not specified. 
-
-A color is bound to `\*DEFAULT-COLOR*\` by the following macro: [WITH-COLOR](#with-color).
-
-##### Example
-
-    \(DRAW-BOX A-BOX :SURFACE SDL:DEFAULT-DISPLAY* :COLOR SDL:*BLACK*\)
-    \(DRAW-BOX B-BOX :SURFACE SDL:DEFAULT-DISPLAY* :COLOR SDL:*BLACK*\)
-    \(DRAW-BOX C-BOX :SURFACE SDL:DEFAULT-DISPLAY* :COLOR SDL:*BLACK*\)
-
-The above can be shortened by setting `\*DEFAULT-COLOR\*` to `\*BLACK\*`.
-
-    \(WITH-SURFACE \(DISP SDL:*DEFAULT-DISPLAY*\)
-      \(WITH-COLOR \(COL SDL:*BLACK*\)
-        \(DRAW-BOX A-BOX\)
-        \(DRAW-BOX B-BOX\)
-        \(DRAW-BOX C-BOX\)\)\)")
-
 (defvar *opengl-context* nil
   "The symbol `\*OPENGL-CONTEXT\*` is `T` when an OpenGL display context is created, and `NIL` otherwise.
 [UPDATE-SURFACE](#update-surface) will swap the `OPENGL` buffers when `\*OPENGL-CONTEXT\*` is `T`, 
 and swap the `SDL` video buffers otherwise.")
 
-(defvar *default-position* nil)
+;; [TODO] For now this stays, but is a candidate for removal
 (defvar *default-rectangle* nil)
-
-(defvar *initialized* nil)
-
-(defvar *external-init-subsystems-on-startup* nil
-  "The list of functions that are called from [INIT-SDL](#init-sdl).")
-(defvar *external-quit-subsystems-on-exit* nil
-  "The list of functions that are called from [QUIT-SDL](#quit-sdl).")
 
 (defparameter *initialize-subsystems-on-startup* nil)
 (defparameter *quit-subsystems-on-exit* nil)
 (defparameter *quit-on-exit* t)
-
 
 (defvar *mixer* nil)
 (defvar *managed-audio* nil)
@@ -101,33 +73,9 @@ Audio formats are defined in `SDL_audio.h`;
 (defconstant +MAX-AUDIO-8+ (- (ash 1 (- 8 1)) 1))
 (defconstant +MIN-AUDIO-8+ (* -1 (ash 1 (- 8 1))))
 
-(defparameter *event-filters* t)
-
-(defparameter *filter-active-event* nil)
-(defparameter *filter-key-down-event* nil)
-(defparameter *filter-key-up-event* nil)
-(defparameter *filter-mouse-button-down-event* nil)
-(defparameter *filter-mouse-button-up-event* nil)
-(defparameter *filter-mouse-motion-event* nil)
-(defparameter *filter-joy-axis-motion-event* nil)
-(defparameter *filter-joy-button-down-event* nil)
-(defparameter *filter-joy-button-up-event* nil)
-(defparameter *filter-joy-hat-motion-event* nil)
-(defparameter *filter-joy-ball-motion-event* nil)
-(defparameter *filter-video-resize-event* nil)
-(defparameter *filter-video-expose-event* nil)
-(defparameter *filter-sys-wm-event* nil)
-(defparameter *filter-user-event* nil)
-(defparameter *filter-quit-event* nil)
-
+(defparameter *event-filters* nil)
 (defparameter *filter-event-hooks* (make-hash-table))
-
-(defvar *allow-convert-to-display-format* t
-  "`CONVERT-TO-DISPLAY-FORMAT` will convert the input surface to the display format when `T`,
-and copy to a new surface when `NIL`.")
 
 (defvar *base-image-support* nil)
 (defvar *additional-image-support* nil)
 (defvar *current-image-support* *base-image-support*)
-
-(defvar *sdl-event* nil)

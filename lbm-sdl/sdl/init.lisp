@@ -3,79 +3,6 @@
 ;;;; Functions
 
 (defmacro with-init (flags &body body)
-  "`WITH-INIT` is a convenience macro that will attempt to initialise the SDL library and SDL subsystems 
-prior to executing the forms in `BODY`. Upon exit `WITH-INIT` will uninitialize the SDL library and SDL subsystems.
-
-The lbm-sdl initialization routines are somewhat complicated by the fact that 
-a Lisp development environment will load a foreign library once but then 
-initialise and uninitialise the library multiple times. A C/C++ development environment will open and then 
-close a library after each execution, freeing all resources left hanging by incomplete 
-or buggy uninitialise functions. C libraries may therefore frequently core dump in a Lisp environment when 
-resources are not feed properly prior to the library being reinitialized.
-
-lbm-SDL provides functionality affording the programmer a finer granularity of control 
-of the initialisation/uninitialisation of foreign libraries. The
-fuctions that provide these capabilities are as follows:
-* [INIT-SUBSYSTEMS](#init-subsystems)
-* [QUIT-SUBSYSTEMS](#quit-subsystems)
-* [INIT-SDL](#init-sdl)
-* [QUIT-SDL](#quit-sdl)
-* [LIST-SUBSYSTEMS](#list-subsystems)
-* [RETURN-SUBSYSTEMS-OF-STATUS](#return-subsystems-of-status)
-
-##### Defaults
-
-`WITH-INIT` will initialize the SDL subsystem and additional subsystems in `:FLAGS` if specified. If `:FLAGS` is not specified, then 
-initializes the subsystems specified by [INITIALIZE-SUBSYSTEMS-ON-STARTUP](#initialize-subsystems-on-startup).
-`WITH-INIT` will uninitialize the SDL subsystem and additional subsystems in `:FLAGS` if specified.
-
-###### Initialisation/Uninitialisation of the SDL library
-
-The SDL library is initialized only:
-* If the library is not yet already initialized.
-
-The SDL library is uninitialized only:
-* When [*QUIT-ON-EXIT*](#*quit-on-exit*) is `T`.
-
-###### Initialisation/Uninitialisation of external libraries
-
-Hooks are provided to allow external libraries to be initialized or uninitialised automatically following 
-the initialisation or uninitialisation of the SDL library.
-
-To initialise an external library, push a function that initialises the external library onto 
-`\*EXTERNAL-INIT-SUBSYSTEMS-ON-STARTUP\*`. The function must take no arguments. For example:
-
-    \(defun init-ttf \(\)
-       \(if \(is-init\)
-         t
-         \(sdl-ttf-cffi::ttf-init\)\)\)
-    \(pushnew 'init-ttf sdl:*external-init-subsystems-on-startup*\) 
-
-To uninitialise an external library, push a function that uninitialises the external library onto
- `\*EXTERNAL-QUIT-SUBSYSTEMS-ON-EXIT\*`. The function must take no arguments. For example:
-
-    \(defun quit-ttf \(\)
-       \(if \(is-init\)
-         \(sdl-ttf-cffi::ttf-quit\)\)\)
-    \(pushnew 'quit-ttf sdl:*external-quit-subsystems-on-exit*\)
-
-##### Parameters
-
-* `FLAGS` may be one or more of: `SDL-INIT-VIDEO`, `SDL-INIT-CDROM`, `SDL-INIT-AUDIO`, 
-`SDL-INIT-JOYSTICK`, and `SDL-INIT-NOPARACHUTE`. *Note*: When `FLAGS` is set by 
-`WITH-INIT`, subsequent calls to [INITIALIZE-SUBSYSTEMS-ON-STARTUP](#initialize-subsystems-on-startup) and 
-[QUIT-SUBSYSTEMS-ON-EXIT](#quit-subsystems-on-exit) are ignored. `WITH-INIT` will only initialize and uninitialize the subsytems 
-specified in `FLAGS`.
-
-##### Example
-
-    \(with-init \(SDL-INIT-VIDEO SDL-INIT-CDROM SDL-INIT-AUDIO\)
-      ....\)
-
-    \(with-init \(\)
-      \(INITIALIZE-SUBSYSTEMS-ON-STARTUP SDL-INIT-VIDEO SDL-INIT-CDROM SDL-INIT-AUDIO\)
-      \(QUIT-SUBSYSTEMS-ON-EXIT SDL-INIT-VIDEO SDL-INIT-CDROM SDL-INIT-AUDIO\)
-      ....\)"
   `(block nil
      (unwind-protect
           (when (init-sdl :flags ',flags)
@@ -243,16 +170,12 @@ already initialized.
                                      (when no-parachute 
                                        sdl-init-noparachute)))) 
                   force))))
-    (dolist (fn *external-init-subsystems-on-startup*)
-      (funcall fn))
     (setf cl-opengl-bindings:*gl-get-proc-address* 
           #'sdl-cffi::sdl-gl-get-proc-address)
     init?))
 
 (defun quit-sdl (&key flags force
                    video cdrom audio joystick no-parachute)
-  (dolist (fn *external-quit-subsystems-on-exit*)
-    (funcall fn))
   (if *quit-on-exit*
       ;; Quit SDL if *quit-on-exit*, otherwise quit each subsystem
       (sdl-cffi::sdl-quit)
