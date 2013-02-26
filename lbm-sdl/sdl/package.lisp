@@ -165,6 +165,7 @@
 
    ;; base.lisp
    #:gc-p
+   #:cast-to-int
 
    ;; events.lisp
    #:event=
@@ -279,19 +280,6 @@
    #:with-rectangles
    #:copy-rectangle
 
-   ;; sdl-util.lisp
-   #:within-range
-   #:within-range-*
-   #:distance
-   #:distance-*
-   #:rotate-surface
-   #:rotate-surface-xy
-   #:zoom-surface
-   #:flood-fill
-   #:flood-fill-*
-   #:flood-fill-stack
-   #:flood-fill-stack-*
-   
    ;; surfaces.lisp
    #:sdl-surface
    #:surface
@@ -329,19 +317,6 @@
    #:cell-index
    #:copy-channel-to-alpha
    #:surface-info
-
-   ;; util.lisp
-   #:random+1
-   #:to-radian
-   #:to-degree
-   #:cast
-   #:cast-to-int
-   #:cast-all-to-int
-   #:all-integers?
-   #:distance
-   #:create-list-if-not
-   #:check-types
-   #:create-path
 
    ;; video.lisp
    #:window

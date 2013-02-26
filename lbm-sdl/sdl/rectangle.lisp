@@ -18,19 +18,6 @@ If `FP' is `NIL` then a foreign SDL_Rect is created. If `FP` is a pointer to a f
                                     (sdl-base::rectangle :src fp)
                                     (sdl-base::rectangle :x x :y y :w w :h h))))
 
-(defun random-rectangle (bound-w bound-h &optional (rectangle (rectangle)))
-  "Creates and return s a new `RECTANGLE` of random x, y width and height within the specified
-bounds of width `BOUND-W` and height `BOUND-H`. `RECTANGLE` if unset will force the creation of a 
-new `RECTANGLE` object. `RECTANGLE` if set will be modified with the coordinates."
-  (declare (type fixnum bound-w bound-h))
-  (check-type rectangle rectangle)
-  (let* ((x (random bound-w))
-         (y (random bound-h))
-         (w (random+1 (- bound-w x)))
-         (h (random+1 (- bound-h y))))
-    (set-rectangle-* rectangle :x x :y y :w w :h h))
-  rectangle)
-
 (defun rectangle-from-edges (p1 p2 &optional (rectangle (rectangle)))
   "See [RECTANGLE-FROM-EDGES-*](#rectangle-from-edges-*).
 

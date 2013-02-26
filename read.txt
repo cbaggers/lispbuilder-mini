@@ -59,9 +59,9 @@ mixer.lisp - not ready for this yet
 mouse.lisp - good
 package.lisp - working on in
 pixel.lisp - all surface functions! Gone now!
-point.lisp - confuses me, want to be sure what uses it before I rip it out
+point.lisp - confuses me, want to be sure what uses it before I rip it out - GONE!
 rectangle.lisp - as above
-renderer.lisp - again as above
+renderer.lisp - again as above - GONE!
 rwops.lisp - will be ok, waiting on this one
 util.lisp - See where these are still used, remove if not. Their place is really in the game utils library
 video.lisp - Much is good in here but could do with being reduced for tidiness

@@ -1,5 +1,9 @@
 (in-package #:sdl)
 
+(defmacro cast-to-int (value)
+  "Casts the value `VALUE` to a `FIXNUM`."
+  `(the fixnum (floor (+ ,value 0.5))))
+
 (defgeneric fp (foreign-object)
   (:documentation "Returns the foreign pointer in FOREIGN-OBJECT"))
 
