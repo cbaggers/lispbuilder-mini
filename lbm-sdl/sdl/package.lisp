@@ -115,7 +115,7 @@
    #:init-joysick
    #:init-cdrom
 
-   #:quit-sdl
+   #:quit
    #:quit-video
    #:quit-audio
    #:quit-joysick

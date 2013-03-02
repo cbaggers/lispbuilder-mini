@@ -8,10 +8,10 @@
           (when (init-sdl :flags ',flags)
             ,@body)
        (close-audio)
-       (quit-sdl :flags ',flags))))
+       (quit :flags ',flags))))
 
 (defun quit-on-exit-p ()
-  "Returns `T` if the SDL library will be uninitialised in a call to [QUIT-SDL](#quit-sdl), or [WITH-INIT](#with-init). 
+  "Returns `T` if the SDL library will be uninitialised in a call to [QUIT](#quit), or [WITH-INIT](#with-init). 
 Returns `NIL` otherwise."
   *quit-on-exit*)
 (defun set-quit-on-exit (val)
@@ -174,7 +174,7 @@ already initialized.
           #'sdl-cffi::sdl-gl-get-proc-address)
     init?))
 
-(defun quit-sdl (&key flags force
+(defun quit (&key flags force
                    video cdrom audio joystick no-parachute)
   (if *quit-on-exit*
       ;; Quit SDL if *quit-on-exit*, otherwise quit each subsystem
