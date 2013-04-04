@@ -14,7 +14,8 @@
    #:SDL-Get-Key-State
    #:SDL-Get-Mod-State
    #:SDL-Set-Mod-State
-   #:SDL-Get-Key-Name))
+   #:SDL-Get-Key-Name
+   #:SDL-KEY-SYM))
 
 
 

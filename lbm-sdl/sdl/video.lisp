@@ -104,18 +104,34 @@
     (when (fp window)
       window)))
 
+(defun set-video-mode (width height &key (bpp 0)
+                                      fullscreen any-format (resizable t) no-frame)
+  (let ((surface (sdl-cffi::SDL-Set-Video-Mode 
+                  (cast-to-int width)
+                  (cast-to-int height)
+                  bpp 
+                  (sdl-base::set-flags
+                   (remove nil (list (when fullscreen sdl-fullscreen)
+                                     (when any-format sdl-any-format)
+                                     sdl-opengl 
+                                     (when resizable sdl-resizable)
+                                     (when no-frame sdl-no-frame)))))))
+    (if (is-valid-ptr surface)
+        (setf (slot-value *default-display* 'foreign-pointer-to-object) surface
+              *default-display* *default-display*)
+        (setf *default-display* nil))))
+
 (defmethod resize-window 
-    (width height &key bpp 
+    (width height &key (bpp 0)
                     (title-caption "") (icon-caption "") fullscreen 
-                    any-format resizable no-frame (alpha-size 0) 
+                    any-format (resizable t) no-frame (alpha-size 0) 
                     (depth-size 16) (stencil-size 8) (red-size 8)
-                    (green-size 8) (blue-size 8) (double-buffer t)
-                    (swap-control t))
-  "Modifies the display, resets the input loop and clears all key events."
+                    (green-size 8) (blue-size 8) (buffer-size 32)
+                    (double-buffer t) (swap-control t))
+  (declare (ignore bpp))
   (multiple-value-bind (title icon)
       (sdl:get-caption)
     (sdl:window width height
-                :bpp (if bpp bpp (sdl:bit-depth sdl:*default-display*))
                 :title-caption (if title-caption title-caption title)
                 :icon-caption (if icon-caption icon-caption icon)
                 :fullscreen fullscreen

@@ -274,7 +274,7 @@
    #:window
    #:resize-window
    #:update-display
-
+   #:set-video-mode
    #:display-cursor
    #:video-driver-name
    #:query-cursor

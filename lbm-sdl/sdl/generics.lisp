@@ -95,9 +95,7 @@ Returns `NIL` if the image cannot be determined \(The *magic number* is not supp
 ##### Packages"))
 
 
-(defgeneric window (width height &key bpp flags sw hw fullscreen async-blit any-format palette double-buffer opengl resizable no-frame
-                          title-caption icon-caption position
-                          video-driver audio-driver opengl-attributes)
+(defgeneric window (width height &rest rest)
   (:documentation
   "Creates a new SDL window of pixel width `WIDTH` and height `HEIGHT` using SDL_SetVideoMode.
 
