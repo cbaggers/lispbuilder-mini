@@ -1,5 +1,13 @@
-lispbuilder-mini
-================
+lispbuilder-mini  <DEPRECATED>
+==============================
+
+This package is deprecated. It's original purpose is  moot now
+that cl-sdl2 is out. 
+
+This only supported sdl 1.2 and as cl-sdl2 is fairly minimal there
+is no reason to update this.
+
+---------------------------------------------------------------------
 
 This is a stripped down version of the fantastic lispbuilder package. 
 
